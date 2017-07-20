@@ -218,3 +218,5 @@ REACT_APP_DIR = ROOT_DIR.path('frontend')
 STATICFILES_DIRS = [
     str(REACT_APP_DIR.path('build/static')),
 ]
+
+ALLOWED_ORIGIN = 'https://dust-prod.herokuapp.com'

@@ -43,7 +43,7 @@ CACHES = {
 
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
-MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware', 'backend.middleware.dev_cors_middleware']
+MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware', ]
 INSTALLED_APPS += ['debug_toolbar', ]
 
 INTERNAL_IPS = ['127.0.0.1', '10.0.2.2', ]
@@ -70,3 +70,5 @@ REACT_APP_DIR = ROOT_DIR.path('frontend')
 STATICFILES_DIRS = [
     str(REACT_APP_DIR.path('build/static')),
 ]
+
+ALLOWED_ORIGIN = 'http://localhost:3000'
