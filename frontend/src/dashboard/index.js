@@ -101,8 +101,8 @@ class Widgets extends Component {
       <div className="widgets">
         <div className="widget-form">
           <form onSubmit={handleSubmit(this.submit)}>
-            <h1>CREATE THE WIDGET</h1>
-            <label htmlFor="name">Name</label>
+            <h1>Setup instruction</h1>
+            <label htmlFor="name">Coin</label>
             {/* We will use a custom component AND a validator */}
             <Field
               name="name"
@@ -112,7 +112,7 @@ class Widgets extends Component {
               component={this.renderNameInput}
               validate={nameRequired}
             />
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">Split</label>
             <Field
               name="description"
               type="text"
@@ -120,7 +120,7 @@ class Widgets extends Component {
               className="description"
               component="input"
             />
-            <label htmlFor="size">Size</label>
+            <label htmlFor="size">Amount</label>
             <Field
               name="size"
               type="number"
@@ -132,11 +132,11 @@ class Widgets extends Component {
             <button
               disabled={invalid}
               action="submit"
-            >CREATE</button>
+            >Create</button>
           </form>
           <hr />
           <div className="widget-messages">
-            {requesting && <span>Creating widget...</span>}
+            {requesting && <span>Creating instruction...</span>}
             {!requesting && !!errors.length && (
               <Errors message="Failure to create Widget due to:" errors={errors} />
             )}
@@ -150,9 +150,9 @@ class Widgets extends Component {
           <table>
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Size</th>
+                <th>Created</th>
+                <th>Split</th>
+                <th>Amount</th>
               </tr>
             </thead>
             <tbody>
@@ -174,7 +174,7 @@ class Widgets extends Component {
             </tbody>
           </table>
           {/* A convenience button to refetch on demand */}
-          <button onClick={this.fetchWidgets}>Refetch Widgets!</button>
+          <button onClick={this.fetchWidgets}>Refetch Instructions!</button>
         </div>
       </div>
     )
