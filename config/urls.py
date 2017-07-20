@@ -22,7 +22,6 @@ urlpatterns = [
 
     # User management
     url(r'^auth/', include('djoser.urls.authtoken')),
-    url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
     url(r'^api/v1/', include('authentication.urls')),
