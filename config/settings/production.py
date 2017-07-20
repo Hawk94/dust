@@ -216,5 +216,5 @@ ADMIN_URL = env('DJANGO_ADMIN_URL')
 REACT_APP_DIR = ROOT_DIR.path('frontend')
 
 STATICFILES_DIRS = [
-    REACT_APP_DIR.path('build').path('static'),
+    str(REACT_APP_DIR.path('build/static')),
 ]
