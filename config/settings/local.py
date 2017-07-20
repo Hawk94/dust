@@ -65,3 +65,8 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 # Your local stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
+REACT_APP_DIR = ROOT_DIR.path('frontend')
+
+STATICFILES_DIRS = [
+    str(REACT_APP_DIR.path('build/static')),
+]

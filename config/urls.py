@@ -17,7 +17,7 @@ router.register(r'users', UserViewSet)
 urlpatterns = [
     # the 'api-root' from django rest-frameworks default router
     # http://www.django-rest-framework.org/api-guide/routers/#defaultrouter
-    url(r'^$', RedirectView.as_view(url=reverse_lazy('api-root'), permanent=False), name='home'),
+    # url(r'^$', RedirectView.as_view(url=reverse_lazy('api-root'), permanent=False), name='home'),
 
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
@@ -28,7 +28,7 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     url(r'^api/v1/', include('authentication.urls')),
     url(r'^api/v1/', include(router.urls)),
-    url(r'^', FrontendAppView.as_view()),
+    url(r'^$', FrontendAppView.as_view()),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
