@@ -28,7 +28,7 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
     url(r'^api/v1/', include('authentication.urls')),
     url(r'^api/v1/', include(router.urls)),
-    url(r'^$', FrontendAppView.as_view()),
+    url(r'^', FrontendAppView.as_view()),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
