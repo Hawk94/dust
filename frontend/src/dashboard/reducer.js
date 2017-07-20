@@ -1,48 +1,48 @@
 import {
-  WIDGET_CREATING,
-  WIDGET_CREATE_SUCCESS,
-  WIDGET_CREATE_ERROR,
-  WIDGET_REQUESTING,
-  WIDGET_REQUEST_SUCCESS,
-  WIDGET_REQUEST_ERROR,
+  INSTRUCTION_CREATING,
+  INSTRUCTION_CREATE_SUCCESS,
+  INSTRUCTION_CREATE_ERROR,
+  INSTRUCTION_REQUESTING,
+  INSTRUCTION_REQUEST_SUCCESS,
+  INSTRUCTION_REQUEST_ERROR,
 } from './constants'
 
 const initialState = {
-  list: [], // where we'll store widgets
+  list: [], // where we'll store instructions
   requesting: false,
   successful: false,
   messages: [],
   errors: [],
 }
 
-const reducer = function widgetReducer (state = initialState, action) {
+const reducer = function instructionReducer (state = initialState, action) {
   switch (action.type) {
-    case WIDGET_CREATING:
+    case INSTRUCTION_CREATING:
       return {
         ...state,
         requesting: true,
         successful: false,
         messages: [{
-          body: `Widget: ${action.widget.name} being created...`,
+          body: `Instruction: ${action.instruction.name} being created...`,
           time: new Date(),
         }],
         errors: [],
       }
 
-    // On success include the new widget into our list
-    case WIDGET_CREATE_SUCCESS:
+    // On success include the new instruction into our list
+    case INSTRUCTION_CREATE_SUCCESS:
       return {
-        list: state.list.concat([action.widget]),
+        list: state.list.concat([action.instruction]),
         requesting: false,
         successful: true,
         messages: [{
-          body: `Widget: ${action.widget.name} awesomely created!`,
+          body: `Instruction: ${action.instruction.name} awesomely created!`,
           time: new Date(),
         }],
         errors: [],
       }
 
-    case WIDGET_CREATE_ERROR:
+    case INSTRUCTION_CREATE_ERROR:
       return {
         ...state,
         requesting: false,
@@ -54,31 +54,31 @@ const reducer = function widgetReducer (state = initialState, action) {
         }]),
       }
 
-    case WIDGET_REQUESTING:
+    case INSTRUCTION_REQUESTING:
       return {
         ...state, // ensure that we don't erase fetched ones
         requesting: false,
         successful: true,
         messages: [{
-          body: 'Fetching widgets...!',
+          body: 'Fetching instructions...!',
           time: new Date(),
         }],
         errors: [],
       }
 
-    case WIDGET_REQUEST_SUCCESS:
+    case INSTRUCTION_REQUEST_SUCCESS:
       return {
-        list: action.widgets, // replace with fresh list
+        list: action.instructions, // replace with fresh list
         requesting: false,
         successful: true,
         messages: [{
-          body: 'Widgets awesomely fetched!',
+          body: 'Instructions awesomely fetched!',
           time: new Date(),
         }],
         errors: [],
       }
 
-    case WIDGET_REQUEST_ERROR:
+    case INSTRUCTION_REQUEST_ERROR:
       return {
         requesting: false,
         successful: false,

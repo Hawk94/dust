@@ -47,7 +47,7 @@ class Signup extends Component {
     return (
       <div className="signup">
         {/* Use the Submit handler with our own submit handler*/}
-        <form className="widget-form" onSubmit={handleSubmit(this.submit)}>
+        <form className="instruction-form" onSubmit={handleSubmit(this.submit)}>
           <h1>Signup</h1>
           <label htmlFor="email">Email</label>
           <Field

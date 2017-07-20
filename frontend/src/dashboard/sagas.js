@@ -1,18 +1,18 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 import { handleApiErrors } from '../lib/api-errors'
 import {
-  WIDGET_CREATING,
-  WIDGET_REQUESTING,
+  INSTRUCTION_CREATING,
+  INSTRUCTION_REQUESTING,
 } from './constants'
 
 import {
-  widgetCreateSuccess,
-  widgetCreateError,
-  widgetRequestSuccess,
-  widgetRequestError,
+  instructionCreateSuccess,
+  instructionCreateError,
+  instructionRequestSuccess,
+  instructionRequestError,
 } from './actions'
 
-const widgetsUrl = `${process.env.REACT_APP_API_URL}/api/Clients`
+const instructionsUrl = `${process.env.REACT_APP_API_URL}/api/Clients`
 
 // Nice little helper to deal with the response
 // converting it to json, and handling errors
@@ -24,8 +24,8 @@ function handleRequest (request) {
     .catch((error) => { throw error })
 }
 
-function widgetCreateApi (client, widget) {
-  const url = `${widgetsUrl}/${client.id}/widgets`
+function instructionCreateApi (client, instruction) {
+  const url = `${instructionsUrl}/${client.id}/instructions`
   const request = fetch(url, {
     method: 'POST',
     headers: {
@@ -34,31 +34,31 @@ function widgetCreateApi (client, widget) {
       // every POST request.
       Authorization: client.token.id || undefined, // will throw an error if no login
     },
-    body: JSON.stringify(widget),
+    body: JSON.stringify(instruction),
   })
 
   return handleRequest(request)
 }
 
-function* widgetCreateFlow (action) {
+function* instructionCreateFlow (action) {
   try {
-    const { client, widget } = action
-    const createdWidget = yield call(widgetCreateApi, client, widget)
+    const { client, instruction } = action
+    const createdInstruction = yield call(instructionCreateApi, client, instruction)
     // creates the action with the format of
     // {
-    //   type: WIDGET_CREATE_SUCCESS,
-    //   widget,
+    //   type: INSTRUCTION_CREATE_SUCCESS,
+    //   instruction,
     // }
     // Which we could do inline here, but again, consistency
-    yield put(widgetCreateSuccess(createdWidget))
+    yield put(instructionCreateSuccess(createdInstruction))
   } catch (error) {
     // same with error
-    yield put(widgetCreateError(error))
+    yield put(instructionCreateError(error))
   }
 }
 
-function widgetRequestApi (client) {
-  const url = `${widgetsUrl}/${client.id}/widgets`
+function instructionRequestApi (client) {
+  const url = `${instructionsUrl}/${client.id}/instructions`
   const request = fetch(url, {
     method: 'GET',
     headers: {
@@ -71,25 +71,25 @@ function widgetRequestApi (client) {
   return handleRequest(request)
 }
 
-function* widgetRequestFlow (action) {
+function* instructionRequestFlow (action) {
   try {
     // grab the client from our action
     const { client } = action
-    // call to our widgetRequestApi function with the client
-    const widgets = yield call(widgetRequestApi, client)
-    // dispatch the action with our widgets!
-    yield put(widgetRequestSuccess(widgets))
+    // call to our instructionRequestApi function with the client
+    const instructions = yield call(instructionRequestApi, client)
+    // dispatch the action with our instructions!
+    yield put(instructionRequestSuccess(instructions))
   } catch (error) {
-    yield put(widgetRequestError(error))
+    yield put(instructionRequestError(error))
   }
 }
 
-function* widgetsWatcher () {
+function* instructionsWatcher () {
   // each of the below RECEIVES the action from the .. action
   yield [
-    takeLatest(WIDGET_CREATING, widgetCreateFlow),
-    takeLatest(WIDGET_REQUESTING, widgetRequestFlow),
+    takeLatest(INSTRUCTION_CREATING, instructionCreateFlow),
+    takeLatest(INSTRUCTION_REQUESTING, instructionRequestFlow),
   ]
 }
 
-export default widgetsWatcher
+export default instructionsWatcher

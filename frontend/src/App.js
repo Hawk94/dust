@@ -14,7 +14,7 @@ const App = props => (
           <img src={logo} className="App-logo" alt="logo" />
         </Navbar.Brand>
         <Navbar.Brand>
-          <a href="#">Dust</a>
+          <a href="/">Dust</a>
         </Navbar.Brand>
       </Navbar.Header>
       <Navbar.Collapse>

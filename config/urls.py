@@ -8,10 +8,12 @@ from django.views import defaults as default_views
 
 from rest_framework.routers import DefaultRouter
 from users.views import UserViewSet
+from instructions.views import InstructionViewSet
 from backend.views import FrontendAppView
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
+router.register(r'instructions', InstructionViewSet)
 
 
 urlpatterns = [

@@ -78,8 +78,8 @@ button[disabled] {
   opacity: 0.6;
 }
 
-.widget-form,
-.widget-list {
+.instruction-form,
+.instruction-list {
   border: 1px solid #dedede;
   text-align: left;
   display: inline-block;
@@ -88,24 +88,24 @@ button[disabled] {
   padding: 20px;
 }
 
-.widget-list {
+.instruction-list {
   margin-left: 20px;
 }
 
-.widget-form input[type="text"],
-.widget-form input[type="email"],
-.widget-form input[type="password"],
-.widget-form input[type="number"] {
+.instruction-form input[type="text"],
+.instruction-form input[type="email"],
+.instruction-form input[type="password"],
+.instruction-form input[type="number"] {
   padding: 10px;
   border: solid 1px #dcdcdc;
   transition: box-shadow 0.3s, border 0.3s;
   margin-bottom: 1rem;
 }
 
-.widget-form input[type="text"]:focus,
-.widget-form input[type="email"]:focus,
-.widget-form input[type="password"]:focus,
-.widget-form input[type="number"]:focus{
+.instruction-form input[type="text"]:focus,
+.instruction-form input[type="email"]:focus,
+.instruction-form input[type="password"]:focus,
+.instruction-form input[type="number"]:focus{
   border: solid 1px #0FBBEC;
   box-shadow: 0 0 10px 0px #61dafb;
 }

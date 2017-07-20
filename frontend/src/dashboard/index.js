@@ -6,13 +6,10 @@ import PropTypes from 'prop-types';
 import Messages from '../notifications/Messages'
 import Errors from '../notifications/Errors'
 
-// include our widgetRequest action
-import { widgetCreate, widgetRequest } from './actions'
+// include our instructionRequest action
+import { instructionCreate, instructionRequest } from './actions'
 
-// Our validation function for `name` field.
-const nameRequired = value => (value ? undefined : 'Name Required')
-
-class Widgets extends Component {
+class Instructions extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     invalid: PropTypes.bool.isRequired,
@@ -20,36 +17,36 @@ class Widgets extends Component {
       id: PropTypes.string.isRequired,
       token: PropTypes.object.isRequired,
     }),
-    widgets: PropTypes.shape({
+    instructions: PropTypes.shape({
       list: PropTypes.array,
       requesting: PropTypes.bool,
       successful: PropTypes.bool,
       messages: PropTypes.array,
       errors: PropTypes.array,
     }).isRequired,
-    widgetCreate: PropTypes.func.isRequired,
-    widgetRequest: PropTypes.func.isRequired,
+    instructionCreate: PropTypes.func.isRequired,
+    instructionRequest: PropTypes.func.isRequired,
     reset: PropTypes.func.isRequired,
   }
   constructor (props) {
     super(props)
     // call the fetch when the component starts up
-    this.fetchWidgets()
+    this.fetchInstructions()
   }
 
-  // the helper function for requesting widgets
+  // the helper function for requesting instructions
   // with our client as the parameter
-  fetchWidgets = () => {
-    const { client, widgetRequest } = this.props
-    if (client && client.token) return widgetRequest(client)
+  fetchInstructions = () => {
+    const { client, instructionRequest } = this.props
+    if (client && client.token) return instructionRequest(client)
     return false
   }
 
 
-  submit = (widget) => {
-    const { client, widgetCreate, reset } = this.props
-    // call to our widgetCreate action.
-    widgetCreate(client, widget)
+  submit = (instruction) => {
+    const { client, instructionCreate, reset } = this.props
+    // call to our instructionCreate action.
+    instructionCreate(client, instruction)
     // reset the form upon submit.
     reset()
   }
@@ -88,7 +85,7 @@ class Widgets extends Component {
     const {
       handleSubmit,
       invalid,
-      widgets: {
+      instructions: {
         list,
         requesting,
         successful,
@@ -98,20 +95,11 @@ class Widgets extends Component {
     } = this.props
 
     return (
-      <div className="widgets">
-        <div className="widget-form">
+      <div className="instructions">
+        <div className="instruction-form">
           <form onSubmit={handleSubmit(this.submit)}>
             <h1>Setup instruction</h1>
-            <label htmlFor="name">Coin</label>
             {/* We will use a custom component AND a validator */}
-            <Field
-              name="name"
-              type="text"
-              id="name"
-              className="name"
-              component={this.renderNameInput}
-              validate={nameRequired}
-            />
             <label htmlFor="description">Split</label>
             <Field
               name="description"
@@ -135,18 +123,18 @@ class Widgets extends Component {
             >Create</button>
           </form>
           <hr />
-          <div className="widget-messages">
+          <div className="instruction-messages">
             {requesting && <span>Creating instruction...</span>}
             {!requesting && !!errors.length && (
-              <Errors message="Failure to create Widget due to:" errors={errors} />
+              <Errors message="Failure to create instruction due to:" errors={errors} />
             )}
             {!requesting && successful && !!messages.length && (
               <Messages messages={messages} />
             )}
           </div>
         </div>
-        {/* The Widget List Area */}
-        <div className="widget-list">
+        {/* The instruction List Area */}
+        <div className="instruction-list">
           <table>
             <thead>
               <tr>
@@ -157,16 +145,16 @@ class Widgets extends Component {
             </thead>
             <tbody>
               {list && !!list.length && (
-                list.map(widget => (
-                  <tr key={widget.id}>
+                list.map(instruction => (
+                  <tr key={instruction.id}>
                     <td>
-                      <strong>{`${widget.name}`}</strong>
+                      <strong>{`${instruction.name}`}</strong>
                     </td>
                     <td>
-                      {`${widget.description}`}
+                      {`${instruction.description}`}
                     </td>
                     <td>
-                      {`${widget.size}`}
+                      {`${instruction.size}`}
                     </td>
                   </tr>
                 ))
@@ -174,24 +162,24 @@ class Widgets extends Component {
             </tbody>
           </table>
           {/* A convenience button to refetch on demand */}
-          <button onClick={this.fetchWidgets}>Refetch Instructions!</button>
+          <button onClick={this.fetchInstructions}>Refetch Instructions!</button>
         </div>
       </div>
     )
   }
 }
 
-// Pull in both the Client and the Widgets state
+// Pull in both the Client and the Instructions state
 const mapStateToProps = state => ({
   client: state.client,
-  widgets: state.widgets,
+  instructions: state.instructions,
 })
 
-// Make the Client and Widgets available in the props as well
-// as the widgetCreate() function
-const connected = connect(mapStateToProps, { widgetCreate, widgetRequest })(Widgets)
+// Make the Client and instructions available in the props as well
+// as the instructionCreate() function
+const connected = connect(mapStateToProps, { instructionCreate, instructionRequest })(Instructions)
 const formed = reduxForm({
-  form: 'widgets',
+  form: 'instructions',
 })(connected)
 
 export default formed

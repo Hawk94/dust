@@ -12,14 +12,14 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 // add IndexRoute above and the helpers below
 import {
   checkIndexAuthorization,
-  checkWidgetAuthorization,
+  checkInstructionAuthorization,
 } from './lib/check-auth'
 
 // Import all of our components
 import App from './App'
 import Login from './login'
 import Signup from './signup'
-import Widgets from './dashboard'
+import Instructions from './dashboard'
 import './index.css'
 
 // Import the index reducer and sagas
@@ -58,7 +58,7 @@ ReactDOM.render(
         <IndexRoute onEnter={checkIndexAuthorization(store)} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route onEnter={checkWidgetAuthorization(store)} path="/dashboard" component={Widgets} />
+        <Route onEnter={checkInstructionAuthorization(store)} path="/dashboard" component={Instructions} />
       </Route>
     </Router>
   </Provider>,

@@ -41,7 +41,7 @@ export function checkIndexAuthorization ({ dispatch }) {
   //
   return (nextState, replace, next) => {
     // we'll make this in a minute - remember begin with the end!
-    // If we pass the authentication check, go to widgets
+    // If we pass the authentication check, go to instructions
     if (checkAuthorization(dispatch)) {
       replace('dashboard')
 
@@ -54,7 +54,7 @@ export function checkIndexAuthorization ({ dispatch }) {
   }
 }
 
-export function checkWidgetAuthorization ({ dispatch, getState }) {
+export function checkInstructionAuthorization ({ dispatch, getState }) {
   // Same format - we do this to have the Redux State available.
   // The difference is that this time we also pull in the helper
   // `getState` which will allow us to.....
@@ -65,10 +65,10 @@ export function checkWidgetAuthorization ({ dispatch, getState }) {
     // reference to the `client` piece of state
     const client = getState().client
 
-    // is it defined and does it have a token? good, go ahead to widgets
+    // is it defined and does it have a token? good, go ahead to instructions
     if (client && client.token) return next()
 
-    // not set yet?  Let's try and set it and if so, go ahead to widgets
+    // not set yet?  Let's try and set it and if so, go ahead to instructions
     if (checkAuthorization(dispatch)) return next()
 
     // nope?  okay back to login ya go.

@@ -4,6 +4,7 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    instructions = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = User
