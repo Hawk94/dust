@@ -11,6 +11,9 @@ from users.views import UserViewSet
 from instructions.views import InstructionViewSet
 from backend.views import FrontendAppView
 
+from rest_framework.authtoken import views
+
+
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'instructions', InstructionViewSet)
@@ -24,11 +27,9 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
 
-    # User management
-    url(r'^auth/', include('djoser.urls.authtoken')),
-
     # Your stuff: custom urls includes go here
-    url(r'^api/v1/', include('authentication.urls')),
+    url(r'^authentication', views.obtain_auth_token, name='authentication'),
+    url(r'^auth/', include('djoser.urls.authtoken'), name='auth'),
     url(r'^api/v1/', include(router.urls)),
     url(r'^', FrontendAppView.as_view()),
 

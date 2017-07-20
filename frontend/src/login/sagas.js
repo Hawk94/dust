@@ -24,6 +24,7 @@ import {
 } from '../client/constants'
 
 const loginUrl = `${process.env.REACT_APP_API_URL}/auth/login/`
+const tokenUrl = `${process.env.REACT_APP_API_URL}/authentication`
 
 function loginApi (email, password) {
   return fetch(loginUrl, {
@@ -59,16 +60,16 @@ function* loginFlow (email, password) {
     token = yield call(loginApi, email, password)
 
     // inform Redux to set our client token, this is non blocking so...
-    yield put(setClient(token))
+    yield put(setClient(token.auth_token))
 
     // .. also inform redux that our login was successful
     yield put({ type: LOGIN_SUCCESS })
 
     // set a stringified version of our token to localstorage on our domain
-    localStorage.setItem('token', JSON.stringify(token))
+    localStorage.setItem('token', JSON.stringify(token.auth_token))
 
     // redirect them to INSTRUCTIONS!
-    browserHistory.push('/instructions')
+    browserHistory.push('/dashboard')
   } catch (error) {
     // error? send it to redux
     yield put({ type: LOGIN_ERROR, error })
@@ -81,7 +82,7 @@ function* loginFlow (email, password) {
   }
 
   // return the token for health and wealth
-  return token
+  return token.auth_token
 }
 
 // Our watcher (saga).  It will watch for many things.

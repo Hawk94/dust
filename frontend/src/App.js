@@ -4,7 +4,7 @@ import './App.css'
 import PropTypes from 'prop-types';
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
-const logoutUrl = `${process.env.REACT_APP_API_URL}/auth/login/`
+const logoutUrl = `${process.env.REACT_APP_API_URL}/auth/logout/`
 
 const App = props => (
   <div className="App">

@@ -12,7 +12,7 @@ import {
   instructionRequestError,
 } from './actions'
 
-const instructionsUrl = `${process.env.REACT_APP_API_URL}/api/Clients`
+const instructionsUrl = `${process.env.REACT_APP_API_URL}/api/v1/instructions`
 
 // Nice little helper to deal with the response
 // converting it to json, and handling errors
@@ -25,7 +25,7 @@ function handleRequest (request) {
 }
 
 function instructionCreateApi (client, instruction) {
-  const url = `${instructionsUrl}/${client.id}/instructions`
+  const url = `${instructionsUrl}`
   const request = fetch(url, {
     method: 'POST',
     headers: {
@@ -58,7 +58,7 @@ function* instructionCreateFlow (action) {
 }
 
 function instructionRequestApi (client) {
-  const url = `${instructionsUrl}/${client.id}/instructions`
+  const url = `${instructionsUrl}/?created_by=${client.id}`
   const request = fetch(url, {
     method: 'GET',
     headers: {

@@ -55,7 +55,6 @@ THIRD_PARTY_APPS = [
 # Apps specific for this project go here.
 LOCAL_APPS = [
     # custom users app
-    'authentication',
     'users',
     # Your stuff: custom apps go here
     
@@ -273,7 +272,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)

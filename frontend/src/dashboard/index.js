@@ -100,7 +100,15 @@ class Instructions extends Component {
           <form onSubmit={handleSubmit(this.submit)}>
             <h1>Setup instruction</h1>
             {/* We will use a custom component AND a validator */}
-            <label htmlFor="description">Split</label>
+            <label htmlFor="size">Amount</label>
+            <Field
+              name="size"
+              type="number"
+              id="size"
+              className="number"
+              component="input"
+            />
+            <label htmlFor="description">BTC Split</label>
             <Field
               name="description"
               type="text"
@@ -108,12 +116,20 @@ class Instructions extends Component {
               className="description"
               component="input"
             />
-            <label htmlFor="size">Amount</label>
+            <label htmlFor="description">ETH Split</label>
             <Field
-              name="size"
-              type="number"
-              id="size"
-              className="number"
+              name="description"
+              type="text"
+              id="description"
+              className="description"
+              component="input"
+            />
+            <label htmlFor="description">LTC Split</label>
+            <Field
+              name="description"
+              type="text"
+              id="description"
+              className="description"
               component="input"
             />
             {/* the button will remain disabled until not invalid */}
@@ -139,8 +155,10 @@ class Instructions extends Component {
             <thead>
               <tr>
                 <th>Created</th>
-                <th>Split</th>
                 <th>Amount</th>
+                <th>BTC Split</th>
+                <th>ETH Split</th>
+                <th>LTC Split</th>
               </tr>
             </thead>
             <tbody>
@@ -148,13 +166,19 @@ class Instructions extends Component {
                 list.map(instruction => (
                   <tr key={instruction.id}>
                     <td>
-                      <strong>{`${instruction.name}`}</strong>
+                      <strong>{`${instruction.created_at}`}</strong>
                     </td>
                     <td>
-                      {`${instruction.description}`}
+                      <strong>{`${instruction.amount}`}</strong>
                     </td>
                     <td>
-                      {`${instruction.size}`}
+                      {`${instruction.BTC_amount}`}
+                    </td>
+                    <td>
+                      {`${instruction.ETH_split}`}
+                    </td>
+                    <td>
+                      {`${instruction.LTC_split}`}
                     </td>
                   </tr>
                 ))

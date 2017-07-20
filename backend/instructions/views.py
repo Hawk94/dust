@@ -21,19 +21,3 @@ class InstructionViewSet(viewsets.ModelViewSet):
         self.serializer_class = CreateInstructionSerializer
         self.permission_classes = (AllowAny,)
         return super(InstructionViewSet, self).create(request, *args, **kwargs)
-
-
-# 
-# class InstructionList(generics.ListAPIView):
-#     serializer_class = InstructionSerializer
-# 
-#     def get_queryset(self):
-#         """
-#         Optionally restricts the returned purchases to a given user,
-#         by filtering against a `username` query parameter in the URL.
-#         """
-#         queryset = Instruction.objects.all()
-#         client_id = self.request.query_params.get('client_id', None)
-#         if username is not None:
-#             queryset = queryset.filter(instruction__id=client_id)
-#         return queryset
