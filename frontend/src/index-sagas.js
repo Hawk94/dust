@@ -1,6 +1,6 @@
 import SignupSaga from './signup/sagas'
 import LoginSaga from './login/sagas'
-import WidgetSaga from './widgets/sagas'
+import WidgetSaga from './dashboard/sagas'
 
 export default function* IndexSaga () {
   yield [

@@ -4,6 +4,11 @@ import { applyMiddleware, createStore, compose } from 'redux'
 import { Provider } from 'react-redux'
 import createSagaMiddleware from 'redux-saga'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
+
+// import './index.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
+
 // add IndexRoute above and the helpers below
 import {
   checkIndexAuthorization,
@@ -14,8 +19,7 @@ import {
 import App from './App'
 import Login from './login'
 import Signup from './signup'
-import forceAuth from './force'
-import Widgets from './widgets'
+import Widgets from './dashboard'
 import './index.css'
 
 // Import the index reducer and sagas
@@ -54,7 +58,7 @@ ReactDOM.render(
         <IndexRoute onEnter={checkIndexAuthorization(store)} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route onEnter={checkWidgetAuthorization(store)} path="/widgets" component={forceAuth} />
+        <Route onEnter={checkWidgetAuthorization(store)} path="/dashboard" component={Widgets} />
       </Route>
     </Router>
   </Provider>,

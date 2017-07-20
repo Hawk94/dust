@@ -45,7 +45,7 @@ class Login extends Component {
     return (
       <div className="login">
         <form className="widget-form" onSubmit={handleSubmit(this.submit)}>
-          <h1>LOGIN</h1>
+          <h1>Login</h1>
           <label htmlFor="email">Email</label>
           {/*
             Our Redux Form Field components that bind email and password

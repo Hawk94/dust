@@ -4,7 +4,7 @@
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 50px;
 }
 
 .App-header {
@@ -22,6 +22,10 @@
   padding: 20px;
   height: 100%;
   width: 100%;
+}
+
+.navbar.navbar-inverse {
+  background-image: linear-gradient(to bottom, #202B50 0%, #202B64 100%);
 }
 
 @keyframes App-logo-spin {
@@ -65,35 +69,13 @@ button {
   text-shadow: 0 1px 3px rgba(0,0,0,0.3);
   box-shadow: 0 1px 1px rgba(0,0,0,0.2);
   text-decoration: none;
-  background: #cc7a6f;
+  background: #5b68Cb;
   color: #fafafa;
   margin-top: 1rem;
 }
 
 button[disabled] {
   opacity: 0.6;
-}
-
-label {
-  display: block;
-  margin-bottom: .25rem;
-}
-
-ul {
-  padding-left: 20px;
-  list-style-type: 0;
-}
-
-ul li {
-  margin-top: 1rem;
-}
-
-ul li:first-child {
-  margin-top: 0;
-}
-
-hr {
-  margin: 30px 0 20px;
 }
 
 .widget-form,
