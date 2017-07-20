@@ -6,7 +6,7 @@ wheel==0.29.0
 
 
 # Bleeding edge Django
-django==1.10.7 # pyup: >=1.10,<1.11
+django==1.11
 
 # Configuration
 django-environ==0.4.3
@@ -44,8 +44,12 @@ pytz==2017.2
 django-redis==4.8.0
 redis>=2.10.5
 
+# Rest API 
+djangorestframework==3.6.3
+
 
 
 
 
 # Your custom requirements go here
+djoser==0.6.0

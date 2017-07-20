@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/dev/ref/settings/
 import environ
 
 ROOT_DIR = environ.Path(__file__) - 3  # (dust/config/settings/base.py - 3 = dust/)
-APPS_DIR = ROOT_DIR.path('dust')
+APPS_DIR = ROOT_DIR.path('backend')
 
 # Load operating system environment variables and then prepare to use them
 env = environ.Env()
@@ -49,12 +49,16 @@ THIRD_PARTY_APPS = [
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
 ]
 
 # Apps specific for this project go here.
 LOCAL_APPS = [
     # custom users app
-    'dust.users.apps.UsersConfig',
+    'authentication',
+    'users'
     # Your stuff: custom apps go here
 ]
 
@@ -76,7 +80,7 @@ MIDDLEWARE = [
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
-    'sites': 'dust.contrib.sites.migrations'
+    'sites': 'backend.contrib.sites.migrations'
 }
 
 # DEBUG
@@ -248,13 +252,13 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Some really nice defaults
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
 ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
-ACCOUNT_ADAPTER = 'dust.users.adapters.AccountAdapter'
-SOCIALACCOUNT_ADAPTER = 'dust.users.adapters.SocialAccountAdapter'
+ACCOUNT_ADAPTER = 'backend.users.adapters.AccountAdapter'
+SOCIALACCOUNT_ADAPTER = 'backend.users.adapters.SocialAccountAdapter'
 
 # Custom user app defaults
 # Select the correct user model
@@ -271,3 +275,10 @@ ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ],
+    'PAGE_SIZE': 10
+}
