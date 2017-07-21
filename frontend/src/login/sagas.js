@@ -24,7 +24,7 @@ import {
 } from '../client/constants'
 
 const loginUrl = `${process.env.REACT_APP_API_URL}/auth/login/`
-const tokenUrl = `${process.env.REACT_APP_API_URL}/authentication`
+const clientUrl = `${process.env.REACT_APP_API_URL}/auth/me/`
 
 function loginApi (email, password) {
   return fetch(loginUrl, {
@@ -33,6 +33,20 @@ function loginApi (email, password) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ email, password }),
+  })
+    .then(handleApiErrors)
+    .then(response => response.json())
+    .then(json => json)
+    .catch((error) => { throw error })
+}
+
+function getClient (token) {
+  return fetch(clientUrl, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Token ${token}`,
+    },
   })
     .then(handleApiErrors)
     .then(response => response.json())
@@ -58,15 +72,16 @@ function* loginFlow (email, password) {
     // will pause here until we either are successful or
     // receive an error
     token = yield call(loginApi, email, password)
+    token.client = yield call(getClient, token.auth_token)
 
     // inform Redux to set our client token, this is non blocking so...
-    yield put(setClient(token.auth_token))
+    yield put(setClient(token))
 
     // .. also inform redux that our login was successful
     yield put({ type: LOGIN_SUCCESS })
 
     // set a stringified version of our token to localstorage on our domain
-    localStorage.setItem('token', JSON.stringify(token.auth_token))
+    localStorage.setItem('token', JSON.stringify(token))
 
     // redirect them to INSTRUCTIONS!
     browserHistory.push('/dashboard')
@@ -82,7 +97,7 @@ function* loginFlow (email, password) {
   }
 
   // return the token for health and wealth
-  return token.auth_token
+  return token
 }
 
 // Our watcher (saga).  It will watch for many things.

@@ -25,14 +25,16 @@ function handleRequest (request) {
 }
 
 function instructionCreateApi (client, instruction) {
-  const url = `${instructionsUrl}`
+  instruction.created_by = client.id
+  console.log(instruction)
+  const url = `${instructionsUrl}/`
   const request = fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       // passes our token as an "Authorization" header in
       // every POST request.
-      Authorization: client.token.id || undefined, // will throw an error if no login
+      Authorization: client.token || undefined, // will throw an error if no login
     },
     body: JSON.stringify(instruction),
   })
@@ -64,7 +66,7 @@ function instructionRequestApi (client) {
     headers: {
       'Content-Type': 'application/json',
       // passe our token as an "Authorization" header
-      Authorization: client.token.id || undefined,
+      Authorization: client.token || undefined,
     },
   })
 

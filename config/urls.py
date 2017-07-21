@@ -31,7 +31,7 @@ urlpatterns = [
     url(r'^authentication', views.obtain_auth_token, name='authentication'),
     url(r'^auth/', include('djoser.urls.authtoken'), name='auth'),
     url(r'^api/v1/', include(router.urls)),
-    url(r'^', FrontendAppView.as_view()),
+    url(r'^', FrontendAppView.as_view(), name='home'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -15,6 +15,7 @@ class Instructions extends Component {
     invalid: PropTypes.bool.isRequired,
     client: PropTypes.shape({
       id: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
       token: PropTypes.object.isRequired,
     }),
     instructions: PropTypes.shape({
@@ -51,30 +52,6 @@ class Instructions extends Component {
     reset()
   }
 
-  renderNameInput = ({ input, type, meta: { touched, error } }) => (
-    <div>
-      {/* Spread RF's input properties onto our input */}
-      <input
-        {...input}
-        type={type}
-      />
-      {/*
-        If the form has been touched AND is in error, show `error`.
-        `error` is the message returned from our validate function above
-        which in this case is `Name Required`.
-
-        `touched` is a live updating property that RF passes in.  It tracks
-        whether or not a field has been "touched" by a user.  This means
-        focused at least once.
-      */}
-      {touched && error && (
-        <div style={{ color: '#cc7a6f', margin: '-10px 0 15px', fontSize: '0.7rem' }}>
-          {error}
-        </div>
-        )
-      }
-    </div>
-  )
 
   render () {
     // pull in all needed props for the view
@@ -100,36 +77,36 @@ class Instructions extends Component {
           <form onSubmit={handleSubmit(this.submit)}>
             <h1>Setup instruction</h1>
             {/* We will use a custom component AND a validator */}
-            <label htmlFor="size">Amount</label>
+            <label htmlFor="amount">Amount</label>
             <Field
-              name="size"
+              name="amount"
               type="number"
-              id="size"
+              id="amount"
               className="number"
               component="input"
             />
-            <label htmlFor="description">BTC Split</label>
+            <label htmlFor="BTC_split">BTC Split</label>
             <Field
-              name="description"
-              type="text"
-              id="description"
-              className="description"
+              name="BTC_split"
+              type="number"
+              id="BTC_split"
+              className="number"
               component="input"
             />
-            <label htmlFor="description">ETH Split</label>
+            <label htmlFor="ETH_split">ETH Split</label>
             <Field
-              name="description"
-              type="text"
-              id="description"
-              className="description"
+              name="ETH_split"
+              type="number"
+              id="ETH_split"
+              className="number"
               component="input"
             />
-            <label htmlFor="description">LTC Split</label>
+            <label htmlFor="LTC_split">LTC Split</label>
             <Field
-              name="description"
-              type="text"
-              id="description"
-              className="description"
+              name="LTC_split"
+              type="number"
+              id="ltc_split"
+              className="number"
               component="input"
             />
             {/* the button will remain disabled until not invalid */}
@@ -166,19 +143,16 @@ class Instructions extends Component {
                 list.map(instruction => (
                   <tr key={instruction.id}>
                     <td>
-                      <strong>{`${instruction.created_at}`}</strong>
+                      <strong>{`${instruction.created_at.split("T", 1)}`}</strong>
                     </td>
                     <td>
                       <strong>{`${instruction.amount}`}</strong>
                     </td>
                     <td>
-                      {`${instruction.BTC_amount}`}
+                      {`${instruction.BTC_split}`}
                     </td>
                     <td>
                       {`${instruction.ETH_split}`}
-                    </td>
-                    <td>
-                      {`${instruction.LTC_split}`}
                     </td>
                   </tr>
                 ))
