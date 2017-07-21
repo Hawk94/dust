@@ -142,7 +142,7 @@ class Instructions extends Component {
                 list.map(instruction => (
                   <tr key={instruction.id}>
                     <td>
-                      <strong>{`${instruction.created_at.split("T", 1)}`}</strong>
+                      <strong>{`${instruction.created_at}`}</strong>
                     </td>
                     <td>
                       <strong>{`${instruction.amount}`}</strong>
