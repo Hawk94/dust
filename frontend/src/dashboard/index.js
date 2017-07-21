@@ -135,7 +135,6 @@ class Instructions extends Component {
                 <th>Amount</th>
                 <th>BTC Split</th>
                 <th>ETH Split</th>
-                <th>LTC Split</th>
               </tr>
             </thead>
             <tbody>
