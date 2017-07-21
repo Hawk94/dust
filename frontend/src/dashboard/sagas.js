@@ -26,7 +26,6 @@ function handleRequest (request) {
 
 function instructionCreateApi (client, instruction) {
   instruction.created_by = client.id
-  console.log(instruction)
   const url = `${instructionsUrl}/`
   const request = fetch(url, {
     method: 'POST',
