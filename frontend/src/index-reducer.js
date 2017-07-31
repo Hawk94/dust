@@ -3,7 +3,7 @@ import { reducer as form } from 'redux-form'
 import client from './client/reducer'
 import signup from './signup/reducer'
 import login from './login/reducer'
-import instructions from './dashboard/reducer'
+import instructions from './instructions/reducer'
 
 const IndexReducer = combineReducers({
   signup,

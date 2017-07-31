@@ -84,7 +84,7 @@ function* loginFlow (email, password) {
     localStorage.setItem('token', JSON.stringify(token))
 
     // redirect them to INSTRUCTIONS!
-    browserHistory.push('/dashboard')
+    browserHistory.push('/instructions')
   } catch (error) {
     // error? send it to redux
     yield put({ type: LOGIN_ERROR, error })

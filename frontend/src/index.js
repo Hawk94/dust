@@ -19,7 +19,7 @@ import {
 import App from './App'
 import Login from './login'
 import Signup from './signup'
-import Instructions from './dashboard'
+import Instructions from './instructions'
 import './index.css'
 
 // Import the index reducer and sagas
@@ -58,7 +58,7 @@ ReactDOM.render(
         <IndexRoute onEnter={checkIndexAuthorization(store)} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
-        <Route onEnter={checkInstructionAuthorization(store)} path="/dashboard" component={Instructions} />
+        <Route onEnter={checkInstructionAuthorization(store)} path="/instructions" component={Instructions} />
       </Route>
     </Router>
   </Provider>,
