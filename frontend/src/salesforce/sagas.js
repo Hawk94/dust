@@ -1,52 +1,42 @@
-salesforceAuthimport { call, put, takeLatest } from 'redux-saga/effects'
+import { call, takeLatest } from 'redux-saga/effects'
 import ClientOAuth2 from 'client-oauth2'
-import { handleApiErrors } from '../lib/api-errors'
 import {
-  SALESFORCE_AUTH_CREATING,
   SALESFORCE_AUTH_REQUESTING,
 } from './constants'
 
-import {
-  salesforceAuthCreateSuccess,
-  salesforceAuthCreateError,
-  salesforceAuthRequestSuccess,
-  salesforceAuthRequestError,
-} from './actions'
 
-const salesforceBaseUrl = `${process.env.SALESFORCE_BASE_URL}`
-const salesforceClientId = `${process.env.SALESFORCE_CONSUMER_KEY}`
-const salesforceClientSecret = `${process.env.SALESFORCE_CONSUMER_SECRET}`
-const salesforceResponseUri = `${process.env.SALESFORCE_RESPONSE_URI}`
+const salesforceBaseUrl = 'https://login.salesforce.com/services/oauth2'
+const salesforceClientId = '3MVG9HxRZv05HarTjaBsVsAdUpMqF_H8JHj6Nl.I0D5bPT_9tuN.tuBQqy.UyGJXIjpl3KhW7OQaKdZHBvbwp'
+const salesforceClientSecret = '4580346374068532671'
 
-// Nice little helper to deal with the response
-// converting it to json, and handling errors
-function handleRequest (request) {
-  return request
-    .then(handleApiErrors)
-    .then(response => response.json())
-    .then(json => json)
-    .catch((error) => { throw error })
-}
+function salesforceAuthRequestApi () {
 
-function salesforceAuthRequestApi (client) {
-  var salesforceAuth = new ClientOAuth2({
-    clientId: salesforceAuthUrl,
+  
+  console.log(salesforceBaseUrl)
+
+  const salesforceAuth = new ClientOAuth2({
+    clientId: salesforceClientId,
     clientSecret: salesforceClientSecret,
-    accessTokenUri: `${SalesforceBaseuUrl}/token`,
-    authorizationUri: `${SalesforceBaseuUrl}/authorize`,
+    accessTokenUri: `${salesforceBaseUrl}/token`,
+    authorizationUri: `${salesforceBaseUrl}/authorize`,
     redirectUri: 'http://dust-prod.herokuapp.com/auth/salesforce/callback',
   })
 
-  const auth_url = githubAuth.code.getUri()
+  const auth_url = salesforceAuth.code.getUri()
+  
+  console.log(salesforceAuth)
+  window.location.href = auth_url
+}
 
-  window.location.href = auth_url;
+function* salseforceAuthRequestFlow (action) {
+    yield call(salesforceAuthRequestApi)
 }
 
 function* salesforceAuthWatcher () {
   // each of the below RECEIVES the action from the .. action
   yield [
-    takeLatest(INSTRUCTION_REQUESTING, instructionRequestFlow),
+    takeLatest(SALESFORCE_AUTH_REQUESTING, salseforceAuthRequestFlow),
   ]
 }
 
-export default instructionsWatcher
+export default salesforceAuthWatcher

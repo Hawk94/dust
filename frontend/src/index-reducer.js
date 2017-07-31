@@ -3,6 +3,7 @@ import { reducer as form } from 'redux-form'
 import client from './client/reducer'
 import signup from './signup/reducer'
 import login from './login/reducer'
+import salesforce from './salesforce/reducer'
 import instructions from './instructions/reducer'
 
 const IndexReducer = combineReducers({
@@ -10,6 +11,7 @@ const IndexReducer = combineReducers({
   client,
   login,
   form,
+  salesforce,
   instructions,
 })
 

@@ -1,41 +1,56 @@
 import React, { Component } from 'react'
+import { reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
-import ClientOAuth2 from 'client-oauth2'
+import { salesforceAuthRequest } from './actions'
 
-class Salesforce extends Component {
-  constructor(props) {
-    super(props);
 
-    // This binding is necessary to make `this` work in the callback
-    this.handleClick = this.handleClick.bind(this);
+class Auth extends Component {
+  // Pass the correct proptypes in for validation
+  static propTypes = {
+    handleSubmit: PropTypes.func,
+    salesforceAuthRequest: PropTypes.func,
+    salesforce: PropTypes.shape({
+      requesting: PropTypes.bool,
+      successful: PropTypes.bool,
+      messages: PropTypes.array,
+      errors: PropTypes.array,
+    }),
   }
 
-  handleClick() {
-    const salesforceBaseUrl = `${process.env.SALESFORCE_BASE_URL}`
-    const salesforceClientId = `${process.env.SALESFORCE_CONSUMER_KEY}`
-    const salesforceClientSecret = `${process.env.SALESFORCE_CONSUMER_SECRET}`
-    const salesforceResponseUri = `${process.env.SALESFORCE_RESPONSE_URI}`
-
-    const salesforceAuth = new ClientOAuth2({
-      clientId: salesforceClientId,
-      clientSecret: salesforceClientSecret,
-      accessTokenUri: `${salesforceBaseUrl}/token`,
-      authorizationUri: `${salesforceBaseUrl}/authorize`,
-      redirectUri: 'http://dust-prod.herokuapp.com/auth/salesforce/callback',
-    })
-
-    const auth_url = salesforceAuth.code.getUri()
-
-    window.location.href = auth_url;
+  submit = () => {
+    this.props.salesforceAuthRequest()
   }
 
-  render() {
+  render () {
+    const {
+      handleSubmit, // remember, Redux Form injects this into our props
+    } = this.props
+
     return (
-      <button onClick={this.handleClick}>
-        Connect with Salesforce
-      </button>
-    );
+      <div className="salesforce">
+        <form className="authentication-form" onSubmit={handleSubmit(this.submit)}>
+          <h1>Salesforce</h1>
+          <button action="submit">Connect!</button>
+        </form>
+      </div>
+    )
   }
 }
+
+// Grab only the piece of state we need
+const mapStateToProps = state => ({
+  salesforce: state.salesforce,
+})
+
+// make Redux state piece of `login` and our action `loginRequest`
+// available in this.props within our component
+const connected = connect(mapStateToProps, { salesforceAuthRequest })(Auth)
+
+// in our Redux's state, this form will be available in 'form.login'
+const formed = reduxForm({
+  form: 'salesforce',
+})(connected)
+
+export default formed

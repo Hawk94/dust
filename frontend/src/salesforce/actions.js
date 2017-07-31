@@ -4,10 +4,9 @@ import {
   SALESFORCE_AUTH_REQUEST_ERROR,
 } from './constants'
 
-export const salesforceAuthRequest = function salesforceAuthRequest (client) {
+export const salesforceAuthRequest = function salesforceAuthRequest () {
   return {
     type: SALESFORCE_AUTH_REQUESTING,
-    client,
   }
 }
 
