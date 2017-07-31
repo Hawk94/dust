@@ -19,6 +19,7 @@ import {
 import App from './App'
 import Login from './login'
 import Signup from './signup'
+import Salesforce from './salesforce'
 import Instructions from './instructions'
 import './index.css'
 
@@ -58,6 +59,7 @@ ReactDOM.render(
         <IndexRoute onEnter={checkIndexAuthorization(store)} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/salesforce" component={Salesforce} />
         <Route onEnter={checkInstructionAuthorization(store)} path="/instructions" component={Instructions} />
       </Route>
     </Router>

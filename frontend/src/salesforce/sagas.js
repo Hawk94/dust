@@ -37,9 +37,9 @@ function salesforceAuthRequestApi (client) {
     redirectUri: 'http://dust-prod.herokuapp.com/auth/salesforce/callback',
   })
 
-  const auth_url = `${instructionsUrl}/?created_by=${client.id}`
+  const auth_url = githubAuth.code.getUri()
 
-  window.location = auth_url;
+  window.location.href = auth_url;
 }
 
 function* salesforceAuthWatcher () {

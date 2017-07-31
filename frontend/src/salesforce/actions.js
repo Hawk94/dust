@@ -13,14 +13,14 @@ export const salesforceAuthRequest = function salesforceAuthRequest (client) {
 
 export const salesforceAuthSuccess = function salesforceAuthSuccess (response_url) {
   return {
-    type: SALESFORCE_AUTH_SUCCESS,
-    auth_token,
+    type: SALESFORCE_AUTH_REQUEST_SUCCESS,
+    response_url,
   }
 }
 
 export const salesforceAuthError = function salesforceAuthError (error) {
   return {
-    type: SALESFORCE_AUTH_ERROR,
+    type: SALESFORCE_AUTH_REQUEST_ERROR,
     error,
   }
 }
