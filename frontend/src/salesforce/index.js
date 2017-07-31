@@ -2,30 +2,40 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
-// include our salesforceAuthRequest action
-import { salesforceAuthRequest } from './actions'
+import ClientOAuth2 from 'client-oauth2'
 
 class Salesforce extends Component {
-  static propTypes = {
-    handleSubmit: PropTypes.func.isRequired,
-    invalid: PropTypes.bool.isRequired,
-    salesforceAuthRequest: PropTypes.func.isRequired,
-    reset: PropTypes.func.isRequired,
-    client: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired,
-      token: PropTypes.object.isRequired,
-    }),
+  constructor(props) {
+    super(props);
+
+    // This binding is necessary to make `this` work in the callback
+    this.handleClick = this.handleClick.bind(this);
   }
 
-  render () {
+  handleClick() {
+    const salesforceBaseUrl = `${process.env.SALESFORCE_BASE_URL}`
+    const salesforceClientId = `${process.env.SALESFORCE_CONSUMER_KEY}`
+    const salesforceClientSecret = `${process.env.SALESFORCE_CONSUMER_SECRET}`
+    const salesforceResponseUri = `${process.env.SALESFORCE_RESPONSE_URI}`
 
+    const salesforceAuth = new ClientOAuth2({
+      clientId: salesforceClientId,
+      clientSecret: salesforceClientSecret,
+      accessTokenUri: `${salesforceBaseUrl}/token`,
+      authorizationUri: `${salesforceBaseUrl}/authorize`,
+      redirectUri: 'http://dust-prod.herokuapp.com/auth/salesforce/callback',
+    })
+
+    const auth_url = salesforceAuth.code.getUri()
+
+    window.location.href = auth_url;
+  }
+
+  render() {
     return (
-      <div className="salesforce_auth">
-        <button onclick="salesforceAuthRequestApi()">
-          Connect with Salesforce
-        </button>
-      </div>
-    )
+      <button onClick={this.handleClick}>
+        Connect with Salesforce
+      </button>
+    );
   }
 }
