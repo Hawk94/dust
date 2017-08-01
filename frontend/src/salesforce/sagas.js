@@ -5,14 +5,11 @@ import {
 } from './constants'
 
 
-const salesforceBaseUrl = 'https://login.salesforce.com/services/oauth2'
-const salesforceClientId = '3MVG9HxRZv05HarTjaBsVsAdUpMqF_H8JHj6Nl.I0D5bPT_9tuN.tuBQqy.UyGJXIjpl3KhW7OQaKdZHBvbwp'
-const salesforceClientSecret = '4580346374068532671'
+const salesforceBaseUrl = process.env.REACT_APP_SALESFORCE_BASE_URL
+const salesforceClientId = process.env.REACT_APP_SALESFORCE_CONSUMER_KEY
+const salesforceClientSecret = process.env.REACT_APP_SALESFORCE_CONSUMER_SECRET
 
 function salesforceAuthRequestApi () {
-
-  
-  console.log(salesforceBaseUrl)
 
   const salesforceAuth = new ClientOAuth2({
     clientId: salesforceClientId,
@@ -24,7 +21,6 @@ function salesforceAuthRequestApi () {
 
   const auth_url = salesforceAuth.code.getUri()
   
-  console.log(salesforceAuth)
   window.location.href = auth_url
 }
 
