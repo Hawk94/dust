@@ -47,3 +47,4 @@ djangorestframework==3.6.3
 # Your custom requirements go here
 djoser==0.6.0
 django-filter==1.0.4
+django-cors-headers==2.1.0
