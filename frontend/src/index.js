@@ -60,6 +60,7 @@ ReactDOM.render(
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/salesforce" component={Salesforce} />
+        <Route path="/salesforce/callback" component={Salesforce} />
         <Route onEnter={checkInstructionAuthorization(store)} path="/instructions" component={Instructions} />
       </Route>
     </Router>

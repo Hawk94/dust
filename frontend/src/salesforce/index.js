@@ -3,7 +3,7 @@ import { reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
-import { salesforceAuthRequest } from './actions'
+import { salesforceAuthRequest, salesforceAuthCreate } from './actions'
 
 
 class Auth extends Component {
@@ -11,12 +11,30 @@ class Auth extends Component {
   static propTypes = {
     handleSubmit: PropTypes.func,
     salesforceAuthRequest: PropTypes.func,
+    salesforceAuthCreate: PropTypes.func,
     salesforce: PropTypes.shape({
       requesting: PropTypes.bool,
       successful: PropTypes.bool,
       messages: PropTypes.array,
       errors: PropTypes.array,
     }),
+  }
+  
+  constructor (props) {
+    super(props)
+    // call the fetch when the component starts up
+    this.createAuth()
+  }
+  
+  // the helper function for requesting instructions
+  // with our client as the parameter
+  createAuth = () => {
+    const { salesforce } = this.props
+    const callbackUrl = window.location.href
+    console.log(salesforce.successful)
+    console.log(callbackUrl)
+    if (salesforce.successful) return salesforceAuthCreate()
+    return false
   }
 
   submit = () => {
