@@ -31,9 +31,7 @@ class Auth extends Component {
   createAuth = () => {
     const { salesforce } = this.props
     const callbackUrl = window.location.href
-    console.log(salesforce.successful)
-    console.log(callbackUrl)
-    if (salesforce.successful) return salesforceAuthCreate()
+    if (callbackUrl.split('?', 1) == `${process.env.REACT_APP_API_URL}/salesforce/callback` ) return salesforceAuthCreate()
     return false
   }
 
