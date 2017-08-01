@@ -10,6 +10,39 @@ const salesforceBaseUrl = process.env.REACT_APP_SALESFORCE_BASE_URL
 const salesforceClientId = process.env.REACT_APP_SALESFORCE_CONSUMER_KEY
 const salesforceClientSecret = process.env.REACT_APP_SALESFORCE_CONSUMER_SECRET
 
+function salesforceAuthCreateApi (client, callbackUrl) {
+
+  const salesforceAuth = new ClientOAuth2({
+    clientId: salesforceClientId,
+    clientSecret: salesforceClientSecret,
+    accessTokenUri: `${salesforceBaseUrl}/token`,
+    authorizationUri: `${salesforceBaseUrl}/authorize`,
+    redirectUri: 'https://dust-prod.herokuapp.com/salesforce/callback',
+  })
+  
+  const access_token = salesforceAuth.code.getToken(callbackUrl)
+  console.log(access_token)
+  // const url = `${instructionsUrl}/`
+  // const request = fetch(url, {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     // passes our token as an "Authorization" header in
+  //     // every POST request.
+  //     Authorization: client.token || undefined, // will throw an error if no login
+  //   },
+  //   body: JSON.stringify(instruction),
+  // })
+
+  // return handleRequest(request)
+}
+
+function* salesforceAuthCreateFlow (action) {
+  console.log('called')
+  const { client, callbackUrl } = action
+  yield call(salesforceAuthCreateApi, client, callbackUrl)
+}
+
 function salesforceAuthRequestApi () {
 
   const salesforceAuth = new ClientOAuth2({
@@ -19,32 +52,18 @@ function salesforceAuthRequestApi () {
     authorizationUri: `${salesforceBaseUrl}/authorize`,
     redirectUri: 'https://dust-prod.herokuapp.com/salesforce/callback',
   })
-
-  const auth_url = salesforceAuth.code.getUri()
   
-  window.location.href = auth_url
+  console.log(salesforceAuth)
+
+
+  const authUrl = salesforceAuth.code.getUri()
+  window.location.href = authUrl
+
 }
 
-function salesforceAuthCreateApi () {
-
-  const salesforceAuth = new ClientOAuth2({
-    clientId: salesforceClientId,
-    clientSecret: salesforceClientSecret,
-    accessTokenUri: `${salesforceBaseUrl}/token`,
-    authorizationUri: `${salesforceBaseUrl}/authorize`,
-    redirectUri: 'https://dust-prod.herokuapp.com/salesforce/callback',
-  })
-  const callbackUrl = window.location.href
-  const access_token = salesforceAuth.code.getToken(callbackUrl)
-  console.log(access_token)
-}
 
 function* salesforceAuthRequestFlow (action) {
     yield call(salesforceAuthRequestApi)
-}
-
-function* salesforceAuthCreateFlow (action) {
-    yield call(salesforceAuthCreateApi)
 }
 
 function* salesforceAuthWatcher () {

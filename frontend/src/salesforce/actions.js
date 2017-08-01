@@ -1,9 +1,33 @@
 import {
+  SALESFORCE_AUTH_CREATING,
+  SALESFORCE_AUTH_CREATE_SUCCESS,
+  SALESFORCE_AUTH_CREATE_ERROR,
+
   SALESFORCE_AUTH_REQUESTING,
   SALESFORCE_AUTH_REQUEST_SUCCESS,
-  SALESFORCE_AUTH_CREATING,
   SALESFORCE_AUTH_REQUEST_ERROR,
 } from './constants'
+
+export const salesforceAuthCreate = function salesforceAuthCreate (client, callbackUrl) {
+  return {
+    type: SALESFORCE_AUTH_CREATING,
+    client,
+    callbackUrl
+  }
+}
+
+export const salesforceAuthCreateSuccess = function salesforceAuthCreateSuccess () {
+  return {
+    type: SALESFORCE_AUTH_CREATE_SUCCESS,
+  }
+}
+
+export const salesforceAuthCreateError = function salesforceAuthCreateError (error) {
+  return {
+    type: SALESFORCE_AUTH_CREATE_ERROR,
+    error,
+  }
+}
 
 export const salesforceAuthRequest = function salesforceAuthRequest () {
   return {
@@ -11,10 +35,10 @@ export const salesforceAuthRequest = function salesforceAuthRequest () {
   }
 }
 
-export const salesforceAuthSuccess = function salesforceAuthSuccess (response_url) {
+export const salesforceAuthSuccess = function salesforceAuthSuccess (responseUrl) {
   return {
     type: SALESFORCE_AUTH_REQUEST_SUCCESS,
-    response_url,
+    responseUrl,
   }
 }
 
@@ -22,11 +46,5 @@ export const salesforceAuthError = function salesforceAuthError (error) {
   return {
     type: SALESFORCE_AUTH_REQUEST_ERROR,
     error,
-  }
-}
-
-export const salesforceAuthCreate = function salesforceAuthCreate () {
-  return {
-    type: SALESFORCE_AUTH_CREATING,
   }
 }

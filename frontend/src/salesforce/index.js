@@ -12,6 +12,11 @@ class Auth extends Component {
     handleSubmit: PropTypes.func,
     salesforceAuthRequest: PropTypes.func,
     salesforceAuthCreate: PropTypes.func,
+    client: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired,
+      token: PropTypes.object.isRequired,
+    }),
     salesforce: PropTypes.shape({
       requesting: PropTypes.bool,
       successful: PropTypes.bool,
@@ -26,12 +31,11 @@ class Auth extends Component {
     this.createAuth()
   }
   
-  // the helper function for requesting instructions
-  // with our client as the parameter
   createAuth = () => {
-    const { salesforce } = this.props
+    console.log('clicked')
+    const { client, salesforceAuthCreate } = this.props
     const callbackUrl = window.location.href
-    if (callbackUrl.split('?', 1) == `${process.env.REACT_APP_API_URL}/salesforce/callback` ) return salesforceAuthCreate()
+    if (callbackUrl.includes('/salesforce/callback')) return salesforceAuthCreate(client, callbackUrl)
     return false
   }
 
@@ -50,6 +54,8 @@ class Auth extends Component {
           <h1>Salesforce</h1>
           <button action="submit">Connect!</button>
         </form>
+        
+        <button onClick={this.createAuth}>Post Auth!</button>
       </div>
     )
   }
@@ -62,7 +68,7 @@ const mapStateToProps = state => ({
 
 // make Redux state piece of `login` and our action `loginRequest`
 // available in this.props within our component
-const connected = connect(mapStateToProps, { salesforceAuthRequest })(Auth)
+const connected = connect(mapStateToProps, { salesforceAuthRequest, salesforceAuthCreate })(Auth)
 
 // in our Redux's state, this form will be available in 'form.login'
 const formed = reduxForm({
