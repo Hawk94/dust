@@ -13,30 +13,27 @@ const redirectUri = `${process.env.REACT_APP_API_URL}/salesforce/callback`
 function salesforceAuthCreateApi (client, callbackUrl) {
 
   const access_token = callbackUrl.split('code=')[1]
-  console.log(access_token)
   const url = `${salesforceBaseUrl}/token?code=${access_token}&grant_type=authorization_code&client_id=${salesforceClientId}&client_secret=${salesforceClientSecret}&redirect_uri=${redirectUri}`
-  const request = fetch(url, {
+  return fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     mode: 'no-cors',
-  })
-  
-  console.log(request)
+  }).then(response => response.json())
+    .then(json => json)
+    .catch((error) => { throw error })
 }
 
 function* salesforceAuthCreateFlow (action) {
-  console.log('called')
   const { client, callbackUrl } = action
-  yield call(salesforceAuthCreateApi, client, callbackUrl)
+  const response = yield call(salesforceAuthCreateApi, client, callbackUrl)
+  console.log(response)
 }
 
 function salesforceAuthRequestApi () {
 
   const authUrl = `${salesforceBaseUrl}/authorize?response_type=code&client_id=${salesforceClientId}&redirect_uri=${redirectUri}`
-
-  console.log(authUrl)
 
   window.location.href = authUrl
 
