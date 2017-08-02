@@ -1,5 +1,4 @@
 import { call, takeLatest } from 'redux-saga/effects'
-import ClientOAuth2 from 'client-oauth2'
 import {
   SALESFORCE_AUTH_REQUESTING,
   SALESFORCE_AUTH_CREATING,
@@ -9,32 +8,22 @@ import {
 const salesforceBaseUrl = process.env.REACT_APP_SALESFORCE_BASE_URL
 const salesforceClientId = process.env.REACT_APP_SALESFORCE_CONSUMER_KEY
 const salesforceClientSecret = process.env.REACT_APP_SALESFORCE_CONSUMER_SECRET
+const redirectUri = `${process.env.REACT_APP_API_URL}salesforce/callback`
 
 function salesforceAuthCreateApi (client, callbackUrl) {
 
-  const salesforceAuth = new ClientOAuth2({
-    clientId: salesforceClientId,
-    clientSecret: salesforceClientSecret,
-    accessTokenUri: `${salesforceBaseUrl}/token`,
-    authorizationUri: `${salesforceBaseUrl}/authorize`,
-    redirectUri: 'https://dust-prod.herokuapp.com/salesforce/callback',
+  const access_token = callbackUrl.split('code=')[1]
+  console.log(access_token)
+  const url = `${salesforceBaseUrl}/token?code=${access_token}&grant_type=authorization_code&client_id=${salesforceClientId}&client_secret=${salesforceClientSecret}&redirect_uri=${redirectUri}`
+  const request = fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    mode: 'no-cors',
   })
   
-  const access_token = salesforceAuth.code.getToken(callbackUrl)
-  console.log(access_token)
-  // const url = `${instructionsUrl}/`
-  // const request = fetch(url, {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     // passes our token as an "Authorization" header in
-  //     // every POST request.
-  //     Authorization: client.token || undefined, // will throw an error if no login
-  //   },
-  //   body: JSON.stringify(instruction),
-  // })
-
-  // return handleRequest(request)
+  console.log(request)
 }
 
 function* salesforceAuthCreateFlow (action) {
@@ -45,18 +34,10 @@ function* salesforceAuthCreateFlow (action) {
 
 function salesforceAuthRequestApi () {
 
-  const salesforceAuth = new ClientOAuth2({
-    clientId: salesforceClientId,
-    clientSecret: salesforceClientSecret,
-    accessTokenUri: `${salesforceBaseUrl}/token`,
-    authorizationUri: `${salesforceBaseUrl}/authorize`,
-    redirectUri: 'https://dust-prod.herokuapp.com/salesforce/callback',
-  })
-  
-  console.log(salesforceAuth)
+  const authUrl = `${salesforceBaseUrl}/authorize?response_type=code&client_id=${salesforceClientId}&redirect_uri=${redirectUri}`
 
+  console.log(authUrl)
 
-  const authUrl = salesforceAuth.code.getUri()
   window.location.href = authUrl
 
 }
