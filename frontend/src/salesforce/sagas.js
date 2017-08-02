@@ -8,7 +8,7 @@ import {
 const salesforceBaseUrl = process.env.REACT_APP_SALESFORCE_BASE_URL
 const salesforceClientId = process.env.REACT_APP_SALESFORCE_CONSUMER_KEY
 const salesforceClientSecret = process.env.REACT_APP_SALESFORCE_CONSUMER_SECRET
-const redirectUri = `${process.env.REACT_APP_API_URL}salesforce/callback`
+const redirectUri = `${process.env.REACT_APP_API_URL}/salesforce/callback`
 
 function salesforceAuthCreateApi (client, callbackUrl) {
 
