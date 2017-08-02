@@ -27,8 +27,7 @@ function salesforceAuthCreateApi (client, callbackUrl) {
 
 function* salesforceAuthCreateFlow (action) {
   const { client, callbackUrl } = action
-  const response = yield call(salesforceAuthCreateApi, client, callbackUrl)
-  console.log(response)
+  yield call(salesforceAuthCreateApi, client, callbackUrl)
 }
 
 function salesforceAuthRequestApi () {
