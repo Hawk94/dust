@@ -4,12 +4,19 @@ import os
 from django.views.generic import View
 from django.http import HttpResponse
 from django.conf import settings
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 
 class FrontendAppView(View):
     """
     Serves the compiled frontend entry point (only works if you have run `yarn
     run build`).
     """
+
+    @method_decorator(ensure_csrf_cookie)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
 
     def get(self, request):
         try:
