@@ -58,8 +58,8 @@ LOCAL_APPS = [
     # custom users app
     'users',
     # Your stuff: custom apps go here
-    
     'instructions',
+    'salesforce',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
