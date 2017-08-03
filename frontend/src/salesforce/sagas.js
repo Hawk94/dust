@@ -23,21 +23,20 @@ function salesforceAuthCreateApi (client, callbackUrl) {
 
   const access_token = callbackUrl.split('code=')[1]
   const url = `${salesforceBaseUrl}/token?code=${access_token}&grant_type=authorization_code&client_id=${salesforceClientId}&client_secret=${salesforceClientSecret}&redirect_uri=${redirectUri}`
-  const request =  fetch(url, {
+  return fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     mode: 'no-cors',
-  })
-  
-  return handleRequest(request)
-}
+  }).then(function(response) {
+    console.log(response)
+  }
+)}
 
 function* salesforceAuthCreateFlow (action) {
   const { client, callbackUrl } = action
-  const response = yield call(salesforceAuthCreateApi, client, callbackUrl)
-  console.log(response)
+  yield call(salesforceAuthCreateApi, client, callbackUrl)
 }
 
 function salesforceAuthRequestApi () {
