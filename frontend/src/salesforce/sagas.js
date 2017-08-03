@@ -20,9 +20,7 @@ function salesforceAuthCreateApi (client, callbackUrl) {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     mode: 'no-cors',
-  }).then(response => response.json())
-    .then(json => json)
-    .catch((error) => { throw error })
+  })
 }
 
 function* salesforceAuthCreateFlow (action) {
