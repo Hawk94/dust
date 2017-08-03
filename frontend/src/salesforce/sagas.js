@@ -30,7 +30,7 @@ function salesforceAuthCreateApi (client, callbackUrl) {
     },
     mode: 'no-cors',
   }).then(function(response) {
-    console.log(response)
+    console.log(response.json())
   }
 )}
 
