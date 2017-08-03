@@ -19,7 +19,7 @@ function salesforceAuthCreateApi (client, callbackUrl) {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    // mode: 'no-cors',
+    mode: 'no-cors',
   })
 }
 
