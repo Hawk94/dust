@@ -1,4 +1,5 @@
 import { call, takeLatest } from 'redux-saga/effects'
+import { handleApiErrors } from '../lib/api-errors'
 import {
   SALESFORCE_AUTH_REQUESTING,
   SALESFORCE_AUTH_CREATING,
@@ -10,22 +11,32 @@ const salesforceClientId = process.env.REACT_APP_SALESFORCE_CONSUMER_KEY
 const salesforceClientSecret = process.env.REACT_APP_SALESFORCE_CONSUMER_SECRET
 const redirectUri = `${process.env.REACT_APP_API_URL}/salesforce/callback`
 
+function handleRequest (request) {
+  return request
+    .then(handleApiErrors)
+    .then(response => response.json())
+    .then(json => json)
+    .catch((error) => { throw error })
+}
+
 function salesforceAuthCreateApi (client, callbackUrl) {
 
   const access_token = callbackUrl.split('code=')[1]
   const url = `${salesforceBaseUrl}/token?code=${access_token}&grant_type=authorization_code&client_id=${salesforceClientId}&client_secret=${salesforceClientSecret}&redirect_uri=${redirectUri}`
-  return fetch(url, {
+  const request =  fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     mode: 'no-cors',
   })
+  
+  return handleRequest(request)
 }
 
 function* salesforceAuthCreateFlow (action) {
   const { client, callbackUrl } = action
-  let response = yield call(salesforceAuthCreateApi, client, callbackUrl)
+  const response = yield call(salesforceAuthCreateApi, client, callbackUrl)
   console.log(response)
 }
 
