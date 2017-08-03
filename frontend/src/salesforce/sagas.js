@@ -25,7 +25,8 @@ function salesforceAuthCreateApi (client, callbackUrl) {
 
 function* salesforceAuthCreateFlow (action) {
   const { client, callbackUrl } = action
-  yield call(salesforceAuthCreateApi, client, callbackUrl)
+  let response = yield call(salesforceAuthCreateApi, client, callbackUrl)
+  console.log(response)
 }
 
 function salesforceAuthRequestApi () {
@@ -35,7 +36,6 @@ function salesforceAuthRequestApi () {
   window.location.href = authUrl
 
 }
-
 
 function* salesforceAuthRequestFlow (action) {
     yield call(salesforceAuthRequestApi)
