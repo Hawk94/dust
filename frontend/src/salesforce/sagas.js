@@ -10,17 +10,54 @@ const salesforceClientId = process.env.REACT_APP_SALESFORCE_CONSUMER_KEY
 const salesforceClientSecret = process.env.REACT_APP_SALESFORCE_CONSUMER_SECRET
 const redirectUri = `${process.env.REACT_APP_API_URL}/salesforce/callback`
 
-function salesforceAuthCreateApi (client, callbackUrl) {
+class accessToken {
+  constructor(createdBy, callbackUrl) {
+    this.createdBy = createdBy;
+    this.callbackUrl = callbackUrl;
+  }
+}
 
-  const access_token = callbackUrl.split('code=')[1]
-  const url = `${salesforceBaseUrl}/token?code=${access_token}&grant_type=authorization_code&client_id=${salesforceClientId}&client_secret=${salesforceClientSecret}&redirect_uri=${redirectUri}`
-  return fetch(url, {
+function handleRequest (request) {
+  return request
+    .then(handleApiErrors)
+    .then(response => response.json())
+    .then(json => json)
+    .catch((error) => { throw error })
+}
+
+function salesforceAuthCreateApi (client, callbackUrl) {
+  const tokensUrl = `${process.env.REACT_APP_API_URL}/api/v1/access_tokens`
+  const access_token = accessToken(client.id, callbackUrl)
+
+  const request = fetch(url, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
+      // passes our token as an "Authorization" header in
+      // every POST request.
+      Authorization: client.token || undefined, // will throw an error if no login
     },
-    mode: 'no-cors',
+    body: JSON.stringify(access_token),
   })
+  
+  return handleRequest(request)
+}
+
+function instructionCreateApi (client, instruction) {
+  instruction.created_by = client.id
+  const url = `${instructionsUrl}/`
+  const request = fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // passes our token as an "Authorization" header in
+      // every POST request.
+      Authorization: client.token || undefined, // will throw an error if no login
+    },
+    body: JSON.stringify(instruction),
+  })
+
+  return handleRequest(request)
 }
 
 function* salesforceAuthCreateFlow (action) {

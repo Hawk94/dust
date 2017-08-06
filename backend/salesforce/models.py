@@ -7,7 +7,7 @@ from simple_salesforce import Salesforce
 
 class SalesforceCredential(models.Model):
     user = models.OneToOneField(User, related_name="salesforce_credentials",
-                                    null=True, on_delete=models.SET_NULL)
+                                null=True, on_delete=models.SET_NULL)
                                     
     id_url = models.CharField(max_length=255, null=True, blank=True)
     issued_at = models.DateTimeField(null=True, blank=True)
@@ -18,6 +18,13 @@ class SalesforceCredential(models.Model):
     id_token = models.CharField(max_length=1200, null=True, blank=True)
     signature = models.CharField(max_length=255, null=True, blank=True)
     access_token = models.CharField(max_length=255, null=True, blank=True)
+
+
+class SalesforceAccessToken(models.Model):
+    created_at = models.DateTimeField(auto_now=True)
+    user = models.OneToOneField(User, related_name="salesforce_access_tokens",
+                                null=True, on_delete=models.SET_NULL)
+    access_token_url = models.CharField(max_length=255, null=True, blank=True)
 
 
 class SalesforceQuery(models.Model):

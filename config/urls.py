@@ -9,7 +9,7 @@ from django.views import defaults as default_views
 from rest_framework.routers import DefaultRouter
 from users.views import UserViewSet
 from instructions.views import InstructionViewSet
-from salesforce.views import SalesforceCredentialViewSet
+from salesforce.views import SalesforceCredentialViewSet, SalesforceAccessTokenViewSet
 from backend.views import FrontendAppView
 
 from rest_framework.authtoken import views
@@ -18,6 +18,7 @@ from rest_framework.authtoken import views
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'credentials', SalesforceCredentialViewSet)
+router.register(r'access_tokens', SalesforceAccessTokenViewSet)
 router.register(r'instructions', InstructionViewSet)
 
 
